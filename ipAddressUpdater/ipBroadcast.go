@@ -70,7 +70,9 @@ func tokenFromFile(file string) (*oauth2.Token, error) {
 
 func main() {
 	ctx := context.Background()
-	ipAddress, err := exec.Command("curl", "ipinfo.io/ip").Output()
+	address, err := exec.Command("curl", "ipinfo.io/ip").Output()
+	var ipAddress string
+	ipAddress = string(address)
 	fmt.Printf("Got IP Address to: %s", ipAddress)
 	if err != nil {
 		log.Fatal(err)
