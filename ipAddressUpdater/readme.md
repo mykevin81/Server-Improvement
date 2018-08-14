@@ -16,11 +16,12 @@ go get -u golang.org/x/oauth2/...
 4. Download `credentials.json` from the tutorial and put it in the same folder as `ipBroadcast.go`
 5. Make your Google sheet in your Google drive and get the sheet ID from the URL
 6. save the ID into a file and name it `sheetId` and put it in the same folder as `ipBroadcast.go`
-7. Run the program
+7. Build the program by running `go build ipBroadcast.go`
+8. Enjoy
 
 ## Setup Cron Job to keep it updated
 I set mine to every even hours, but you can always change up the frequency
 ```
-0 */2 * * * go run ipBroadcast.go > ipBroadcast.log
+0 */2 * * * ipBroadcast > ipBroadcast.log
 ```
 For quick crontab generation, refer to this [guide](https://crontab-generator.org/)
