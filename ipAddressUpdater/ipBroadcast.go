@@ -97,7 +97,7 @@ func main() {
 	}
 
 	fmt.Printf("Set spreadSheet data\n")
-	spreadsheetId := "1Rk8d6_cyQUICdMKIBa3FHARwgJbMCrzDBnMU8SKC4Js"
+	spreadsheetId, err := ioutil.ReadFile("sheetId")
 	writeRange := "sheet1!A1:B1"
 	value := [][]interface{}{{"IP Address", string(ipAddress)}}
 	rb := &sheets.ValueRange{
