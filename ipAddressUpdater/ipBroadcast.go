@@ -1,25 +1,25 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"golang.org/x/net/context"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
+	"google.golang.org/api/sheets/v4"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
-
-	"golang.org/x/net/context"
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
-	"google.golang.org/api/sheets/v4"
-
-	"encoding/json"
+	"path"
 	"path/filepath"
+	"runtime"
 )
 
 // Retrieve a token, saves the token, then returns the generated client.
-func getClient(config *oauth2.Config) *http.Client {
-	tokFile := "token.json"
+func getClient(config *oauth2.Config, currentDirectory string) *http.Client {
+	tokFile := path.Join(currentDirectory, "token.json")
 	tok, err := tokenFromFile(tokFile)
 	if err != nil {
 		tok = getTokenFromWeb(config)
@@ -69,8 +69,8 @@ func tokenFromFile(file string) (*oauth2.Token, error) {
 	return tok, err
 }
 
-func getSheetId() (string, error) {
-	sheetIdPath, _ := filepath.Abs("sheetId")
+func getSheetId(currentDirectory string) (string, error) {
+	sheetIdPath, _ := filepath.Abs(path.Join(currentDirectory, "sheetId"))
 	fileData, err := ioutil.ReadFile(sheetIdPath)
 
 	return string(fileData), err
@@ -86,7 +86,15 @@ func main() {
 		log.Fatal(err)
 		os.Exit(0)
 	}
-	credFilePath, _ := filepath.Abs("credentials.json")
+
+	//get relative file path
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		log.Fatal("No caller information")
+	}
+	var currentDirectory = string(path.Dir(filename))
+
+	credFilePath, _ := filepath.Abs(path.Join(currentDirectory, "credentials.json"))
 	cred, err := ioutil.ReadFile(credFilePath)
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
@@ -97,7 +105,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Unable to parse client secret file to config: %v", err)
 	}
-	client := getClient(config)
+	client := getClient(config, currentDirectory)
 	fmt.Printf("Begine Sheets\n")
 	srv, err := sheets.New(client)
 	if err != nil {
@@ -105,7 +113,7 @@ func main() {
 	}
 
 	fmt.Printf("Set spreadSheet data\n")
-	spreadsheetId, err := getSheetId()
+	spreadsheetId, err := getSheetId(currentDirectory)
 	if err != nil {
 		log.Fatalf("Unable to get spreadsheet ID: %v", err)
 		os.Exit(0)
