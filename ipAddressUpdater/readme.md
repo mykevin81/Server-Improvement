@@ -1,9 +1,9 @@
 # IP Address Upater
 The purpose of this script is to update a home IP address to a google sheet to solve dynamic IP from ISP.
-And also I was bored.....
+And also, I was bored.....
 
 ## Install
-1. Make sure you're GO is up to date, this program requires version 1.8+ to run correctly
+1. Make sure your GO is up to date, this program requires version 1.8+ to run correctly
 2. Clone this repository in command line
 ```bash
 git clone https://github.com/mykevin81/Server-Improvement.git
@@ -17,11 +17,11 @@ go get -u golang.org/x/oauth2/...
 5. Make your Google sheet in your Google drive and get the sheet ID from the URL
 6. save the ID into a file and name it `sheetId` and put it in the same folder as `ipBroadcast.go`
 7. Build the program by running `go build ipBroadcast.go`
-8. Enjoy
+8. Enjoy!
 
 ## Setup Cron Job to keep it updated
 I set mine to every even hours, but you can always change up the frequency
 ```
-0 */2 * * * ipBroadcast > ipBroadcast.log
+0 * * * * ipBroadcast > ipBroadcast.log
 ```
 For quick crontab generation, refer to this [guide](https://crontab-generator.org/)
