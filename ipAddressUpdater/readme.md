@@ -1,5 +1,6 @@
 # IP Address Upater
 The purpose of this script is to update a home IP address to a google sheet to solve dynamic IP from ISP.
+And also I was bored.....
 
 ## Install
 1. Make sure you're GO is up to date, this program requires version 1.8+ to run correctly
