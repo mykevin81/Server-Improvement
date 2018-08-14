@@ -102,7 +102,7 @@ func main() {
 		Values: value,
 	}
 
-	valueInputOption := ""
+	valueInputOption := "RAW"
 
 	fmt.Printf("Update Cells\n")
 	_, err = srv.Spreadsheets.Values.Update(spreadsheetId, writeRange, rb).ValueInputOption(valueInputOption).Context(ctx).Do()
