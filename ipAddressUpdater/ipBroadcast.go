@@ -14,6 +14,7 @@ import (
 	"google.golang.org/api/sheets/v4"
 
 	"encoding/json"
+	"path/filepath"
 )
 
 // Retrieve a token, saves the token, then returns the generated client.
@@ -68,6 +69,13 @@ func tokenFromFile(file string) (*oauth2.Token, error) {
 	return tok, err
 }
 
+func getSheetId() (string, error) {
+	sheetIdPath, _ := filepath.Abs("sheetId")
+	fileData, err := ioutil.ReadFile(sheetIdPath)
+
+	return string(fileData), err
+}
+
 func main() {
 	ctx := context.Background()
 	address, err := exec.Command("curl", "ipinfo.io/ip").Output()
@@ -78,8 +86,8 @@ func main() {
 		log.Fatal(err)
 		os.Exit(0)
 	}
-
-	cred, err := ioutil.ReadFile("credentials.json")
+	credFilePath, _ := filepath.Abs("credentials.json")
+	cred, err := ioutil.ReadFile(credFilePath)
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 		os.Exit(0)
@@ -97,14 +105,17 @@ func main() {
 	}
 
 	fmt.Printf("Set spreadSheet data\n")
-	spreadsheetId, err := ioutil.ReadFile("sheetId")
+	spreadsheetId, err := getSheetId()
+	if err != nil {
+		log.Fatalf("Unable to get spreadsheet ID: %v", err)
+		os.Exit(0)
+	}
 	writeRange := "sheet1!A1:B1"
 	value := [][]interface{}{{"IP Address", string(ipAddress)}}
 	rb := &sheets.ValueRange{
 		Range:  writeRange,
 		Values: value,
 	}
-
 	valueInputOption := "RAW"
 
 	fmt.Printf("Update Cells\n")
