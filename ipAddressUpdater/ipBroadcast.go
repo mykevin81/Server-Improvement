@@ -71,7 +71,7 @@ func tokenFromFile(file string) (*oauth2.Token, error) {
 func main() {
 	ctx := context.Background()
 	ipAddress, err := exec.Command("curl", "ipinfo.io/ip").Output()
-	fmt.Printf("Got IP Address to: %s\n", ipAddress)
+	fmt.Printf("Got IP Address to: %s", ipAddress)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(0)
@@ -102,7 +102,6 @@ func main() {
 		Range:  writeRange,
 		Values: value,
 	}
-	fmt.Printf("value: %s\n", value)
 
 	valueInputOption := "RAW"
 
