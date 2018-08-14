@@ -15,6 +15,7 @@ import (
 	"path"
 	"path/filepath"
 	"runtime"
+	"time"
 )
 
 // Retrieve a token, saves the token, then returns the generated client.
@@ -81,7 +82,8 @@ func main() {
 	address, err := exec.Command("curl", "ipinfo.io/ip").Output()
 	var ipAddress string
 	ipAddress = string(address)
-	fmt.Printf("Got IP Address to: %s", ipAddress)
+
+	fmt.Printf("[%s]Got IP Address to: %s", time.Now().Format("2006-01-02 15:04:05"), ipAddress)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(0)
@@ -106,13 +108,13 @@ func main() {
 		log.Fatalf("Unable to parse client secret file to config: %v", err)
 	}
 	client := getClient(config, currentDirectory)
-	fmt.Printf("Begine Sheets\n")
+	fmt.Printf("[%s]Begine Sheets\n", time.Now().Format("2006-01-02 15:04:05"))
 	srv, err := sheets.New(client)
 	if err != nil {
 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
 	}
 
-	fmt.Printf("Set spreadSheet data\n")
+	fmt.Printf("[%s]Set spreadSheet data\n", time.Now().Format("2006-01-02 15:04:05"))
 	spreadsheetId, err := getSheetId(currentDirectory)
 	if err != nil {
 		log.Fatalf("Unable to get spreadsheet ID: %v", err)
@@ -126,10 +128,10 @@ func main() {
 	}
 	valueInputOption := "RAW"
 
-	fmt.Printf("Update Cells\n")
+	fmt.Printf("[%s]Update Cells\n", time.Now().Format("2006-01-02 15:04:05"))
 	_, err = srv.Spreadsheets.Values.Update(spreadsheetId, writeRange, rb).ValueInputOption(valueInputOption).Context(ctx).Do()
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("done!\n")
+	fmt.Printf("[%s]done!\n", time.Now().Format("2006-01-02 15:04:05"))
 }
