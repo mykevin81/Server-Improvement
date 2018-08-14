@@ -71,6 +71,7 @@ func tokenFromFile(file string) (*oauth2.Token, error) {
 func main() {
 	ctx := context.Background()
 	ipAddress, err := exec.Command("curl", "ipinfo.io/ip").Output()
+	fmt.Printf("Got IP Address to: %s\n", ipAddress)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(0)
@@ -95,12 +96,13 @@ func main() {
 
 	fmt.Printf("Set spreadSheet data\n")
 	spreadsheetId := "1Rk8d6_cyQUICdMKIBa3FHARwgJbMCrzDBnMU8SKC4Js"
-	writeRange := "A1"
-	value := [][]interface{}{{ipAddress}}
+	writeRange := "sheet1!A1:B1"
+	value := [][]interface{}{{"IP Address", string(ipAddress)}}
 	rb := &sheets.ValueRange{
 		Range:  writeRange,
 		Values: value,
 	}
+	fmt.Printf("value: %s\n", value)
 
 	valueInputOption := "RAW"
 
@@ -109,5 +111,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("Update IP Address to: %s\n", ipAddress)
+	fmt.Printf("done!\n")
 }
