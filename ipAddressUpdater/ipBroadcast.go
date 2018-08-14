@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
-	"os/exec"
 	"os"
+	"os/exec"
 )
 
 func main() {
@@ -16,5 +16,5 @@ func main() {
 		os.Exit(0)
 	}
 
-	fmt.Printf("IP Address: %s\n", ipAddress);
+	fmt.Printf("IP Address: %s\n", ipAddress)
 }
