@@ -17,6 +17,24 @@ go mod tidy
 8. Build the program by running `go build ipBroadcast.go`
 9. Enjoy!
 
+## Usage
+You can run the program as is, this will update sheet A1:B1 with IP Address and the address itself
+```
+./ipBroadcast
+```
+Alternative you can pass title in column A and specific cell
+```
+./ipBroadcast [Cell location] [Title]
+#Example
+./ipBroadcast A2:B2 someAddress
+```
+This will result in 
+|             |             |   |   |   |
+|-------------|-------------|---|---|---|
+| someAddress | 192.168.1.1 |   |   |   |
+|             |             |   |   |   |
+
+
 ## Setup Cron Job to keep it updated
 I set mine to every even hours, but you can always change up the frequency
 ```
