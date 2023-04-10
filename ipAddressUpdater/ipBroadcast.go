@@ -78,12 +78,24 @@ func getSheetId(currentDirectory string) (string, error) {
 }
 
 func main() {
+
+	var writeRange string
+	var addressTitle string
+
+	if len(os.Args[1:]) == 2 {
+		writeRange = "sheet1!" + os.Args[1]
+		addressTitle = os.Args[2]
+	} else {
+		writeRange = "sheet1!A1:B1"
+		addressTitle = "IP Address"
+	}
+
 	ctx := context.Background()
 	address, err := exec.Command("curl", "ipinfo.io/ip").Output()
 	var ipAddress string
 	ipAddress = string(address)
 
-	fmt.Printf("[%s]Got IP Address to: %s", time.Now().Format("2006-01-02 15:04:05"), ipAddress)
+	fmt.Printf("[%s]Got IP Address: %s\n", time.Now().Format("2006-01-02 15:04:05"), ipAddress)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(0)
@@ -120,8 +132,10 @@ func main() {
 		log.Fatalf("Unable to get spreadsheet ID: %v", err)
 		os.Exit(0)
 	}
-	writeRange := "sheet1!A1:B1"
-	value := [][]interface{}{{"IP Address", string(ipAddress)}}
+
+	fmt.Printf("[%s]writeRange: %s, addressTitle: %s", time.Now().Format("2006-01-02 15:04:05"), writeRange, addressTitle)
+
+	value := [][]interface{}{{addressTitle, string(ipAddress)}}
 	rb := &sheets.ValueRange{
 		Range:  writeRange,
 		Values: value,
