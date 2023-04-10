@@ -4,11 +4,7 @@ And also, I was bored.....
 
 ## Install
 1. Make sure your GO is up to date, this program requires version 1.8+ to run correctly
-2. Clone this repository in command line
-```bash
-git clone https://github.com/mykevin81/Server-Improvement.git
-cd Server-Improvement/ipAddressUpdater
-```
+2. Clone this repository
 3. Setup the environment by following Step 1 & 2 of the quick start guide found [here](https://developers.google.com/sheets/api/quickstart/go)
 4. Init the go project to get the dependencies according to the init output
 ```
