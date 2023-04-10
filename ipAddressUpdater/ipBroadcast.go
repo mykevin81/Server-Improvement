@@ -133,7 +133,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	fmt.Printf("[%s]writeRange: %s, addressTitle: %s", time.Now().Format("2006-01-02 15:04:05"), writeRange, addressTitle)
+	fmt.Printf("[%s]writeRange: %s, addressTitle: %s\n", time.Now().Format("2006-01-02 15:04:05"), writeRange, addressTitle)
 
 	value := [][]interface{}{{addressTitle, string(ipAddress)}}
 	rb := &sheets.ValueRange{
